@@ -16,14 +16,22 @@
   <body>
     <div id="wrapper" class="container mb-3">
       <div id="app">
-        <h2 class="header" v-on:click="runTests">Test Results:</h2>
+        <button class="btn btn-default action" v-on:click="reset(false)">Clear</button>
+        <button class="btn btn-primary action" v-on:click="runTests">Run</button>
+        <h2 class="header">Test Results:</h2>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" v-model="correct" id="defaultCheck1">
+          <label class="form-check-label" for="defaultCheck1">
+            Correct Solution
+          </label>
+        </div>
+        <hr>
         <div class="alert boxed" 
              v-for="result in results" 
              v-bind:class="classFor(result)">
-          <strong>{{ result.title }}</strong>:
-          <i class="fa fa-check ikon" v-if="result.passed"></i>
-          <i class="fa fa-minus ikon" v-else></i>
-          <div v-if="result.description.length > 0">{{ result.description }}</div>
+          <strong>{{ result.title }}</strong>
+          <i v-bind:class="iconFor(result)"></i>
+          <div v-if="result.notes.length > 0">{{ result.notes }}</div>
         </div>
       </div>
     </div>
