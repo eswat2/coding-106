@@ -95,7 +95,6 @@ function getSumWrong(vm, t) {
 
 const TEST_DATA = [{
     name: "All requests within 50ms",
-    count: 3,
     rqs: [
       { data: [1, 2, 3], timeout: 5 },
       { data: [4, 5, 6], timeout: 10 },
@@ -105,7 +104,6 @@ const TEST_DATA = [{
   },
   {
     name: "Two requests within 50ms",
-    count: 3,
     rqs: [
       { data: [1, 2, 3, 4], timeout: 5 },
       { data: [5, 6, 7], timeout: 6 },
@@ -115,7 +113,6 @@ const TEST_DATA = [{
   },
   {
     name: "Two requests within 50ms",
-    count: 2,
     rqs: [
       { data: [1, 2, 3], timeout: 5 },
       { data: [4, 5, 6], timeout: 60 },
@@ -125,7 +122,6 @@ const TEST_DATA = [{
   },
   {
     name: "Two requests within 50ms",
-    count: 2,
     rqs: [
       { data: [1, 2, 3], timeout: 60 },
       { data: [4, 5, 6], timeout: 4 },
@@ -135,7 +131,6 @@ const TEST_DATA = [{
   },
   {
     name: "One request within 50ms",
-    count: 2,
     rqs: [
       { data: [1, 2, 3], timeout: 60 },
       { data: [4, 5, 6], timeout: 70 },
@@ -145,7 +140,6 @@ const TEST_DATA = [{
   },
   {
     name: "One request within 50ms",
-    count: 2,
     rqs: [
       { data: [1, 2, 3], timeout: 60 },
       { data: [4, 5, 6], timeout: 1 },
@@ -155,7 +149,6 @@ const TEST_DATA = [{
   },
   {
     name: "One request within 50ms",
-    count: 2,
     rqs: [
       { data: [1, 2, 3], timeout: 1 },
       { data: [4, 5, 6], timeout: 60 },
@@ -165,7 +158,6 @@ const TEST_DATA = [{
   },
   {
     name: "All requests over 50ms",
-    count: 2,
     rqs: [
       { data: [1, 2, 3], timeout: 55 },
       { data: [4, 5, 6], timeout: 60 },
@@ -175,7 +167,6 @@ const TEST_DATA = [{
   },
   {
     name: "All requests over 50ms",
-    count: 2,
     rqs: [
       { data: [1, 2, 3], timeout: 60 },
       { data: [4, 5, 6], timeout: 65 },
@@ -185,7 +176,6 @@ const TEST_DATA = [{
   },
   {
     name: "All requests over 50ms",
-    count: 2,
     rqs: [
       { data: [1, 2, 3], timeout: 65 },
       { data: [4, 5, 6], timeout: 60 },
