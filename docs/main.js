@@ -260,7 +260,7 @@ const app = new Vue({
       this.results[i].notes = '[ ' + test.correct + ', ' + data + ', ' + this.results[i].calls + ' ]'
       if (this.results[i].calls > 1) {
         this.results[i].passed = false
-        this.results[i].notes += ' -- too many submitResult calls'
+        this.results[i].notes += ' -- too many updates'
       }
     }
   }
