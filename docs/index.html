@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Coding 106</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          rel="stylesheet"
+          type="text/css">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"
+            type="text/javascript"></script>
+    <script src="https://use.fontawesome.com/85640850f4.js"
+            type="text/javascript"></script>
+    <link href="main.css" rel="stylesheet" type="text/css">
+  </head>
+  <body>
+    <div id="wrapper" class="container mb-3">
+      <div id="app">
+        <h2 class="header" v-on:click="runTests">Test Results:</h2>
+        <div class="alert boxed" 
+             v-for="result in results" 
+             v-bind:class="classFor(result)">
+          <strong>{{ result.title }}</strong>:
+          <i class="fa fa-check ikon" v-if="result.passed"></i>
+          <i class="fa fa-minus ikon" v-else></i>
+          <div v-if="result.description.length > 0">{{ result.description }}</div>
+        </div>
+      </div>
+    </div>
+    <script src="main.js"></script>
+  </body>
+</html>
