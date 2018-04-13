@@ -28,14 +28,14 @@ function getSum(vm, t) {
     return acc + curr
   }
   // Calculate an answer as specified above.
-  var answer = 0
-  var done = false
-  var count = 0
-  var start = getMsTime()
+  let answer = 0
+  let done = false
+  let count = 0
+  const start = getMsTime()
 
   for (let i = 0; i < 3; i++) {
     vm.requestNumbers(i, t, function(data) {
-      var delta = getMsTime() - start
+      let delta = getMsTime() - start
       if (!done) {
         count += 1
         let sum = data.reduce(reducer, 0)
@@ -58,6 +58,10 @@ function getSum(vm, t) {
 
 function getSumWrong(vm, t) {
   // NOTE this is a simple but wrong example to demonstrate the UI
+  function getRandomInt(max) {
+    return Math.floor(Math.random() * Math.floor(max));
+  }
+
   function reducer(acc, curr) {
     return acc + curr
   }
@@ -69,7 +73,8 @@ function getSumWrong(vm, t) {
       let sum = data.reduce(reducer, 0)
       count += 1
       answer += sum
-      if (count > 2) {
+      let stop = getRandomInt(3)
+      if (count > stop) {
         vm.submitResult(t, answer)
       }
     })
@@ -88,7 +93,7 @@ function getSumWrong(vm, t) {
        You can assume the fetch always completes successfully.
 */
 
-var TESTS = [{
+const TEST_DATA = [{
     name: "All requests within 50ms",
     count: 3,
     rqs: [
@@ -219,8 +224,8 @@ const app = new Vue({
     reset: function(load) {
       this.results = []
       if (load) {
-        for (let i = 0; i < TESTS.length; i++) {
-          this.results.push({ passed: null, title: i + '.', notes: '' })
+        for (let i = 0; i < TEST_DATA.length; i++) {
+          this.results.push({ passed: null, title: i + '.', notes: '', calls: 0 })
         }
       }
     },
@@ -228,14 +233,14 @@ const app = new Vue({
       const vm = this
       this.reset(true)
       delay(1000).then(function() {
-        for (let i = 0; i < TESTS.length; i++) {
-          vm.runner(vm, i)
-        }
+        TEST_DATA.forEach(function(test, indx) {
+          vm.runner(vm, indx)
+        })
       })
     },
     doNetworkRequest: function(i, t) {
       const vm = this
-      const rq = TESTS[t].rqs[i]
+      const rq = TEST_DATA[t].rqs[i]
       return delay(rq.timeout).then(function() {
         return rq.data
       })
@@ -247,11 +252,16 @@ const app = new Vue({
       })
     },
     submitResult: function(i, data) {
-      const test = TESTS[i]
-      console.log(i, data)
+      const test = TEST_DATA[i]
+      // console.log(i, data)
       this.results[i].passed = data == test.correct
       this.results[i].title = i + '. ' + test.name
-      this.results[i].notes = '[ ' + data + ', ' + test.correct + ' ]'
+      this.results[i].calls += 1
+      this.results[i].notes = '[ ' + test.correct + ', ' + data + ', ' + this.results[i].calls + ' ]'
+      if (this.results[i].calls > 1) {
+        this.results[i].passed = false
+        this.results[i].notes += ' -- too many submitResult calls'
+      }
     }
   }
 })
