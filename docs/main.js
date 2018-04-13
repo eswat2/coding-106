@@ -65,15 +65,15 @@ function getSumWrong(vm, t) {
   function reducer(acc, curr) {
     return acc + curr
   }
-  var answer = 0
-  var count = 0
+  let answer = 0
+  let count = 0
+  const stop = getRandomInt(3)
 
   for (let i = 0; i < 3; i++) {
     vm.requestNumbers(i, t, function(data) {
       let sum = data.reduce(reducer, 0)
       count += 1
       answer += sum
-      let stop = getRandomInt(3)
       if (count > stop) {
         vm.submitResult(t, answer)
       }
