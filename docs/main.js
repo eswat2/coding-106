@@ -89,7 +89,7 @@ function getSumWrong(vm, t) {
 */
 
 var TESTS = [{
-    name: "All requests complete within 50ms",
+    name: "All requests within 50ms",
     count: 3,
     rqs: [
       { data: [1, 2, 3], timeout: 5 },
@@ -99,7 +99,7 @@ var TESTS = [{
     correct: 45
   },
   {
-    name: "Two requests complete within 50ms",
+    name: "Two requests within 50ms",
     count: 3,
     rqs: [
       { data: [1, 2, 3, 4], timeout: 5 },
@@ -109,7 +109,7 @@ var TESTS = [{
     correct: 28
   },
   {
-    name: "Two requests complete within 50ms",
+    name: "Two requests within 50ms",
     count: 2,
     rqs: [
       { data: [1, 2, 3], timeout: 5 },
@@ -119,7 +119,7 @@ var TESTS = [{
     correct: 33
   },
   {
-    name: "Two requests complete within 50ms",
+    name: "Two requests within 50ms",
     count: 2,
     rqs: [
       { data: [1, 2, 3], timeout: 60 },
@@ -129,7 +129,7 @@ var TESTS = [{
     correct: 39
   },
   {
-    name: "One request completes within 50ms",
+    name: "One request within 50ms",
     count: 2,
     rqs: [
       { data: [1, 2, 3], timeout: 60 },
@@ -139,7 +139,7 @@ var TESTS = [{
     correct: 30
   },
   {
-    name: "One request completes within 50ms",
+    name: "One request within 50ms",
     count: 2,
     rqs: [
       { data: [1, 2, 3], timeout: 60 },
@@ -149,7 +149,7 @@ var TESTS = [{
     correct: 21
   },
   {
-    name: "One request completes within 50ms",
+    name: "One request within 50ms",
     count: 2,
     rqs: [
       { data: [1, 2, 3], timeout: 1 },
@@ -159,7 +159,7 @@ var TESTS = [{
     correct: 21
   },
   {
-    name: "All requests complete in over 50ms",
+    name: "All requests over 50ms",
     count: 2,
     rqs: [
       { data: [1, 2, 3], timeout: 55 },
@@ -169,7 +169,7 @@ var TESTS = [{
     correct: 21
   },
   {
-    name: "All requests complete in over 50ms",
+    name: "All requests over 50ms",
     count: 2,
     rqs: [
       { data: [1, 2, 3], timeout: 60 },
@@ -179,7 +179,7 @@ var TESTS = [{
     correct: 32
   },
   {
-    name: "All requests complete in over 50ms",
+    name: "All requests over 50ms",
     count: 2,
     rqs: [
       { data: [1, 2, 3], timeout: 65 },
