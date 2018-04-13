@@ -25,3 +25,7 @@
 .action {
   float: right;
 }
+
+.correct {
+  margin-left: 12px;
+}
