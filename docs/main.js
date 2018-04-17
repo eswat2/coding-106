@@ -33,6 +33,14 @@ function getSum(vm, t) {
   let count = 0
   const start = getMsTime()
 
+  // NOTE:  this timeout solves the problem of waiting too long....
+  setTimeout(function() {
+    if (count == 2 && !done) {
+      done = true
+      vm.submitResult(t, answer)
+    }
+  }, 50)
+
   for (let i = 0; i < 3; i++) {
     vm.requestNumbers(i, t, function(data) {
       let delta = getMsTime() - start
@@ -46,7 +54,6 @@ function getSum(vm, t) {
         } else {
           answer += sum
         }
-
         if ((count == 2 && delta >= 50) || count > 2) {
           done = true;
           vm.submitResult(t, answer)
@@ -211,11 +218,18 @@ const app = new Vue({
       if (item.passed == null) { return ['fa', 'fa-minus', 'ikon'] }
       return item.passed ? ['fa', 'fa-check', 'ikon'] : ['fa', 'fa-times', 'ikon']
     },
+    getMsTime: function() {
+      return new Date().getTime()
+    },
     reset: function(load) {
       this.results = []
       if (load) {
         for (let i = 0; i < TEST_DATA.length; i++) {
-          this.results.push({ passed: null, title: i + '.', notes: '', calls: 0 })
+          // NOTE:  determine the number to verify the time spent...
+          const under = Math.max(50, TEST_DATA[i].rqs.reduce(function(max, item) {
+            return (item.timeout > max) ? item.timeout : max
+          }, 0))
+          this.results.push({ passed: null, title: i + '.', notes: '', calls: 0, under })
         }
       }
     },
@@ -224,7 +238,13 @@ const app = new Vue({
       this.reset(true)
       delay(1000).then(function() {
         TEST_DATA.forEach(function(test, indx) {
-          vm.runner(vm, indx)
+          // NOTE:  space out the tests so they don't overlap...
+          delay(200 * indx).then(function() {
+            const result = vm.results[indx]
+            result.start = vm.getMsTime()
+            console.log('-- ', indx, result.start)
+            vm.runner(vm, indx)
+          })
         })
       })
     },
@@ -244,13 +264,25 @@ const app = new Vue({
     submitResult: function(i, data) {
       const test = TEST_DATA[i]
       // console.log(i, data)
-      this.results[i].passed = data == test.correct
-      this.results[i].title = i + '. ' + test.name
-      this.results[i].calls += 1
-      this.results[i].notes = '[ ' + test.correct + ', ' + data + ', ' + this.results[i].calls + ' ]'
-      if (this.results[i].calls > 1) {
-        this.results[i].passed = false
-        this.results[i].notes += ' -- too many updates'
+      const result = this.results[i]
+      const stop = this.getMsTime()
+      const delta = stop - result.start
+      const delay = delta - result.under
+      result.passed = data == test.correct
+      result.title = i + '. ' + test.name
+      result.calls += 1
+      result.stop = stop
+      result.delta = delta
+      result.notes = '[ ' + test.correct + ', ' + data + ', ' + result.calls + ' ]'
+      result.notes += '[ ' + delay + 'ms ]'
+
+      if (result.calls > 1) {
+        result.passed = false
+        result.notes += ' -- too many updates'
+      }
+      if (delay >= 0) {
+        // NOTE:  they waited to long to submit the result...
+        result.passed = false
       }
     }
   }
